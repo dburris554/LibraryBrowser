@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public abstract class LibraryGenerator {
+	private static int PAGE_CAPACITY = 500;
+	
 	public static BookList generate() throws FileNotFoundException {
 		Scanner scan = new Scanner(new File("library.lib"));
 		BookList bookList = new BookList();
@@ -15,6 +17,10 @@ public abstract class LibraryGenerator {
 			bookList.append(new Book(title, author, chapters));
 		}
 		return bookList;
+	}
+	
+	public static void setPageCapacity(int capacity) {
+		LibraryGenerator.PAGE_CAPACITY = capacity;
 	}
 
 	private static ChapterList generateChapters(Scanner scan) {
@@ -38,18 +44,17 @@ public abstract class LibraryGenerator {
 
 	private static PageList generatePages(String chapterText) {
 		PageList pageList = new PageList();
-		int pageCapacity = 500;
 		int beginIndex = 0;
-		int endIndex = pageCapacity;
+		int endIndex = PAGE_CAPACITY;
 		if (endIndex > chapterText.length()) {
 			endIndex = chapterText.length();
 		}
 		//Round up to nearest whole number of pages
-		for (int i = 0; i < (int)((chapterText.length() + pageCapacity - 1) / pageCapacity); i++) {
+		for (int i = 0; i < (int)((chapterText.length() + PAGE_CAPACITY - 1) / PAGE_CAPACITY); i++) {
 			String pageText = chapterText.substring(beginIndex, endIndex);
 			pageList.append(new Page(i + 1, pageText));
 			beginIndex = endIndex;
-			endIndex += pageCapacity;
+			endIndex += PAGE_CAPACITY;
 			//Partial last page check
 			if (endIndex > chapterText.length()) {
 				endIndex = chapterText.length();

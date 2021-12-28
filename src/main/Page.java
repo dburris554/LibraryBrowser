@@ -1,6 +1,7 @@
 package main;
 
 public class Page {
+	private static int LINE_CAPACITY = 100;
 	private int number;
 	private String text;
 	
@@ -17,18 +18,21 @@ public class Page {
 		return text;
 	}
 	
+	public static void setLineCapacity(int capacity) {
+		Page.LINE_CAPACITY = capacity;
+	}
+	
 	public String toString() {
-		int lineCapacity = 100;
 		String s = "";
 		int beginIndex = 0;
-		int endIndex = lineCapacity;
+		int endIndex = LINE_CAPACITY;
 		if (endIndex > text.length()) {
 			endIndex = text.length();
 		}
-		for (int i = 0; i < (int)((text.length() + lineCapacity - 1) / lineCapacity); i++) {
+		for (int i = 0; i < (int)((text.length() + LINE_CAPACITY - 1) / LINE_CAPACITY); i++) {
 			s += text.substring(beginIndex, endIndex) + "\n";
 			beginIndex = endIndex;
-			endIndex += lineCapacity;
+			endIndex += LINE_CAPACITY;
 			if (endIndex > text.length()) {
 				endIndex = text.length();
 			}
